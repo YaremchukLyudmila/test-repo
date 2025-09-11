@@ -37,6 +37,18 @@ public class Main {
             }
             System.out.println("Количество строк в файле: " + lineCount);
             System.out.println("Трафик: " + statistics.getTrafficRate() + " байт/ч");
+
+            System.out.println("Список существующих url:");
+            statistics.getExistsPaths().forEach(url -> System.out.println("   " + url));
+            System.out.println();
+
+            double sumStat = 0;
+            System.out.println("Статистика ОС:");
+            for (String os: statistics.getOsKindStatistic().keySet()) {
+                System.out.printf("   %s: %f%n", os, statistics.getOsKindStatistic().get(os));
+                sumStat += statistics.getOsKindStatistic().get(os);
+            }
+            System.out.printf("Сумма долей ОС: %f", sumStat);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
