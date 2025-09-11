@@ -42,6 +42,10 @@ public class Main {
             statistics.getExistsPaths().forEach(url -> System.out.println("   " + url));
             System.out.println();
 
+            System.out.println("Список запрошенных, но отсутствующих url:");
+            statistics.getNotFoundPaths().forEach(url -> System.out.println("   " + url));
+            System.out.println();
+
             double sumStat = 0;
             System.out.println("Статистика ОС:");
             for (String os: statistics.getOsKindStatistic().keySet()) {

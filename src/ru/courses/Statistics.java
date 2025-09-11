@@ -1,10 +1,7 @@
 package ru.courses;
 
 import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Statistics {
 
@@ -13,6 +10,7 @@ public class Statistics {
     private ZonedDateTime minTime;
     private ZonedDateTime maxTime;
     final private Set<String> paths = new HashSet<>();
+    final private Set<String> notFoundPaths = new HashSet<>();
     final private Map<String, Integer> osCounter = new HashMap<>();
 
     public void addEntry(LogEntry logEntry) {
@@ -26,6 +24,9 @@ public class Statistics {
         }
         if (logEntry.getResponseCode() == 200) {
             paths.add(logEntry.getPath());
+        }
+        if (logEntry.getResponseCode() == 404) {
+            notFoundPaths.add(logEntry.getPath());
         }
         if (!osCounter.containsKey(logEntry.getUserAgent().getOs())) {
             osCounter.put(logEntry.getUserAgent().getOs(), 0);
@@ -46,8 +47,12 @@ public class Statistics {
         return paths;
     }
 
+    public Set<String> getNotFoundPaths() {
+        return notFoundPaths;
+    }
+
     public Map<String, Double> getOsKindStatistic() {
-        final Map<String, Double> response = new HashMap<>();
+        final Map<String, Double> response = new TreeMap<>();
         osCounter.forEach((os, count) -> response.put(os, 1.0 * count / totalEntryCounter));
         return response;
     }
