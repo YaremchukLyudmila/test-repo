@@ -5,6 +5,7 @@ import ru.courses.Statistics;
 import ru.courses.VeryLongStringException;
 
 import java.io.*;
+import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
@@ -47,12 +48,27 @@ public class Main {
             System.out.println();
 
             double sumStat = 0;
+            Map<String, Double> osKindStatistic = statistics.getOsKindStatistic();
             System.out.println("Статистика ОС:");
-            for (String os: statistics.getOsKindStatistic().keySet()) {
-                System.out.printf("   %s: %f%n", os, statistics.getOsKindStatistic().get(os));
-                sumStat += statistics.getOsKindStatistic().get(os);
+            for (String os: osKindStatistic.keySet()) {
+                System.out.printf("   %s: %f%n", os, osKindStatistic.get(os));
+                sumStat += osKindStatistic.get(os);
             }
-            System.out.printf("Сумма долей ОС: %f", sumStat);
+            System.out.printf("Сумма долей ОС: %f%n", sumStat);
+            System.out.println();
+
+            System.out.println("Среднее число запросов не от ботов в час: " + statistics.getRequestPerHour());
+            System.out.println();
+
+            double sumStatByIp = 0;
+            Map<String, Double> ipVisitCounter = statistics.getIpVisitCounter();
+            System.out.println("Статистика посещений по пользователям:");
+            for (String ip: ipVisitCounter.keySet()) {
+                System.out.printf("   %s: %f%n", ip, ipVisitCounter.get(ip));
+                sumStatByIp += ipVisitCounter.get(ip);
+            }
+            System.out.printf("Сумма долей ОС: %f%n", sumStatByIp);
+            System.out.println();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

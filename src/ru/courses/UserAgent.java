@@ -9,6 +9,7 @@ public class UserAgent {
 
     final String os;
     final String browser;
+    final boolean isBot;
 
     public String getOs() {
         return os;
@@ -18,7 +19,12 @@ public class UserAgent {
         return browser;
     }
 
+    public boolean isBot() {
+        return isBot;
+    }
+
     public UserAgent(String str) {
+        isBot = str.toLowerCase().contains("bot");
         Matcher matcher = PATTERN_1.matcher(str);
         if (matcher.find()) {
             browser = matcher.group(1);
