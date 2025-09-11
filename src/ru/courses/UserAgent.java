@@ -10,6 +10,14 @@ public class UserAgent {
     final String os;
     final String browser;
 
+    public String getOs() {
+        return os;
+    }
+
+    public String getBrowser() {
+        return browser;
+    }
+
     public UserAgent(String str) {
         Matcher matcher = PATTERN_1.matcher(str);
         if (matcher.find()) {
