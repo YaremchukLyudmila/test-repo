@@ -1,10 +1,9 @@
 package ru.courses.main;
 
-import ru.courses.LogEntry;
-import ru.courses.Statistics;
-import ru.courses.VeryLongStringException;
+import ru.courses.*;
 
 import java.io.*;
+import java.time.Instant;
 import java.util.Map;
 
 public class Main {
@@ -69,6 +68,16 @@ public class Main {
             }
             System.out.printf("Сумма долей ОС: %f%n", sumStatByIp);
             System.out.println();
+
+            SecondAndCount secondAndCount = statistics.getMaxRequestPerSecond();
+            System.out.printf("Максимальное число посещений в секунду. Время: %s, число: %d%n%n", Instant.ofEpochSecond(secondAndCount.getSecond()), secondAndCount.getCount());
+
+            System.out.println("Список доменов referer:");
+            statistics.getRefereeDomains().forEach(url -> System.out.println("   " + url));
+            System.out.println();
+
+            IpAndCount ipAndCount = statistics.getMaxRequestPerIp();
+            System.out.printf("Максимальное число посещений одним клиентом. IP: %s, число: %d%n%n", ipAndCount.getIp(), ipAndCount.getCount());
         } catch (IOException ex) {
             ex.printStackTrace();
         }

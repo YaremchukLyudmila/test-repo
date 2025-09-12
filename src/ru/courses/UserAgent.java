@@ -24,7 +24,7 @@ public class UserAgent {
     }
 
     public UserAgent(String str) {
-        isBot = str.toLowerCase().contains("bot");
+        isBot = "-".equals(str) || str.isBlank() || str.toLowerCase().contains("bot");
         Matcher matcher = PATTERN_1.matcher(str);
         if (matcher.find()) {
             browser = matcher.group(1);
