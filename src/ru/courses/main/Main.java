@@ -88,6 +88,9 @@ public class Main {
             }
             System.out.printf("Сумма долей браузерам: %f%n", sumStatByBrowser);
             System.out.println();
+
+            System.out.println("Среднее число ответов 4ъъ и 5хх в час: " + statistics.getErrorPerHour());
+            System.out.println();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

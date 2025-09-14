@@ -12,6 +12,7 @@ public class Statistics {
     private long totalTraffic = 0;
     private long totalEntryCounter = 0;
     private long notBotRequestCounter = 0;
+    private long errorResponseCounter = 0;
     private ZonedDateTime minTime;
     private ZonedDateTime maxTime;
     final private Set<String> paths = new HashSet<>();
@@ -56,6 +57,9 @@ public class Statistics {
         if (logEntry.getResponseCode() == 404) {
             notFoundPaths.add(logEntry.getPath());
         }
+        if (logEntry.getResponseCode() >=400) {
+            errorResponseCounter++;
+        }
 
         if (!osCounter.containsKey(logEntry.getUserAgent().getOs())) {
             osCounter.put(logEntry.getUserAgent().getOs(), 0);
@@ -75,6 +79,15 @@ public class Statistics {
         }
         double diffInHour = 1.0 * (maxTime.toEpochSecond() - minTime.toEpochSecond()) / (60 * 60);
         return (long) (totalTraffic / diffInHour);
+    }
+
+    // Среднее число ответов 4хх и 5хх в час
+    public long getErrorPerHour() {
+        if (minTime == null || maxTime == null) {
+            return 0;
+        }
+        double diffInHour = 1.0 * (maxTime.toEpochSecond() - minTime.toEpochSecond()) / (60 * 60);
+        return (long) (errorResponseCounter / diffInHour);
     }
 
     public Set<String> getExistsPaths() {
