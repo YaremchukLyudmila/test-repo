@@ -78,6 +78,16 @@ public class Main {
 
             IpAndCount ipAndCount = statistics.getMaxRequestPerIp();
             System.out.printf("Максимальное число посещений одним клиентом. IP: %s, число: %d%n%n", ipAndCount.getIp(), ipAndCount.getCount());
+
+            double sumStatByBrowser = 0;
+            Map<String, Double> browserCounter = statistics.getBrowserCounter();
+            System.out.println("Статистика посещений по браузерам:");
+            for (String browser: browserCounter.keySet()) {
+                System.out.printf("   %s: %f%n", browser, browserCounter.get(browser));
+                sumStatByBrowser += browserCounter.get(browser);
+            }
+            System.out.printf("Сумма долей браузерам: %f%n", sumStatByBrowser);
+            System.out.println();
         } catch (IOException ex) {
             ex.printStackTrace();
         }

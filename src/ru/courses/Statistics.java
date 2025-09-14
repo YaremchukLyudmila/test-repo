@@ -19,6 +19,7 @@ public class Statistics {
     final private Set<String> refereeDomains = new HashSet<>();
     final private Map<String, Integer> osCounter = new HashMap<>();
     final private Map<String, Integer> ipVisitCounter = new HashMap<>();
+    final private Map<String, Integer> browserCounter = new HashMap<>();
     final private Map<Long, Integer> requestPerSecond = new HashMap<>();
 
     public void addEntry(LogEntry logEntry) {
@@ -35,6 +36,12 @@ public class Statistics {
                 requestPerSecond.put(logEntry.getDate().toEpochSecond(), 0);
             }
             requestPerSecond.put(logEntry.getDate().toEpochSecond(), requestPerSecond.get(logEntry.getDate().toEpochSecond()) + 1);
+
+            if (!browserCounter.containsKey(logEntry.getUserAgent().getBrowser())) {
+                browserCounter.put(logEntry.getUserAgent().getBrowser(), 0);
+            }
+            browserCounter.put(logEntry.getUserAgent().getBrowser(), browserCounter.get(logEntry.getUserAgent().getBrowser()) + 1);
+
         }
         totalTraffic += logEntry.getResponseSize();
         if (minTime == null || minTime.isAfter(logEntry.getDate())) {
@@ -95,6 +102,12 @@ public class Statistics {
     public Map<String, Double> getIpVisitCounter() {
         final Map<String, Double> response = new TreeMap<>();
         ipVisitCounter.forEach((os, count) -> response.put(os, 1.0 * count / notBotRequestCounter));
+        return response;
+    }
+
+    public Map<String, Double> getBrowserCounter() {
+        final Map<String, Double> response = new TreeMap<>();
+        browserCounter.forEach((browser, count) -> response.put(browser, 1.0 * count / notBotRequestCounter));
         return response;
     }
 
